@@ -1,0 +1,99 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block login %}
+<section class="auth-page">
+  <div class="container auth-container">
+    <div class="auth-card">
+      <div class="auth-card__left">
+        <div class="auth-brand">
+          <img class="auth-brand__logo" src="{% static 'app/image/logoweb.png' %}" alt="Ăn là Ghiền" />
+          <div class="auth-brand__text">
+            <div class="auth-brand__name">Ăn là Ghiền</div>
+            <div class="auth-brand__tagline">Đăng nhập để tiếp tục mua sắm món ngon</div>
+          </div>
+        </div>
+
+        <h1 class="auth-title">Đăng nhập</h1>
+
+        {% if messages %}
+          <div class="auth-alerts">
+            {% for message in messages %}
+              <div class="auth-alert auth-alert--{{ message.tags|default:'info' }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form class="auth-form" method="POST" action="">
+          {% csrf_token %}
+
+          <div class="auth-field">
+            <label class="auth-label" for="id_username">Tên đăng nhập</label>
+            <div class="auth-inputwrap">
+              <span class="auth-icon"><i class="fa-solid fa-user"></i></span>
+              <input
+                id="id_username"
+                type="text"
+                name="username"
+                class="auth-input"
+                placeholder="Nhập username của bạn"
+                autocomplete="username"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="id_password1">Mật khẩu</label>
+            <div class="auth-inputwrap">
+              <span class="auth-icon"><i class="fa-solid fa-lock"></i></span>
+              <input
+                id="id_password1"
+                type="password"
+                name="password1"
+                class="auth-input"
+                placeholder="Nhập mật khẩu"
+                autocomplete="current-password"
+                required
+              />
+              <button class="auth-toggle" type="button" data-auth-toggle="password" data-auth-target="#id_password1" aria-label="Hiện/ẩn mật khẩu">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-actions">
+            <button type="submit" class="auth-btn auth-btn--primary">
+              Đăng nhập
+              <i class="fa-solid fa-arrow-right-long ms-2"></i>
+            </button>
+          </div>
+
+          <div class="auth-foot">
+            <span>Bạn chưa có tài khoản?</span>
+            <a class="auth-link" href="{% url 'register' %}">Đăng ký ngay</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="auth-card__right">
+        <div class="auth-hero">
+          <div class="auth-hero__badge">
+            <i class="fa-solid fa-burger"></i>
+            <span>Food • E-commerce</span>
+          </div>
+          <div class="auth-hero__title">Món ngon mỗi ngày</div>
+          <div class="auth-hero__desc">Ưu đãi nóng hổi, giao nhanh, đặt là ghiền.</div>
+          <div class="auth-hero__art" aria-hidden="true">
+            <div class="auth-bubble auth-bubble--1"></div>
+            <div class="auth-bubble auth-bubble--2"></div>
+            <div class="auth-bubble auth-bubble--3"></div>
+            <img class="auth-hero__logo" src="{% static 'app/image/logoweb.png' %}" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{% static 'app/js/auth.js' %}?v=1"></script>
+{% endblock login %}

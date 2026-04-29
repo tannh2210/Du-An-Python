@@ -1,0 +1,143 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block register %}
+<section class="auth-page">
+  <div class="container auth-container">
+    <div class="auth-card">
+      <div class="auth-card__left">
+        <div class="auth-brand">
+          <img class="auth-brand__logo" src="{% static 'app/image/logoweb.png' %}" alt="Ăn là Ghiền" />
+          <div class="auth-brand__text">
+            <div class="auth-brand__name">Ăn là Ghiền</div>
+            <div class="auth-brand__tagline">Tạo tài khoản để nhận ưu đãi và đặt món nhanh hơn</div>
+          </div>
+        </div>
+
+        <h1 class="auth-title">Đăng ký</h1>
+
+        {% if messages %}
+          <div class="auth-alerts">
+            {% for message in messages %}
+              <div class="auth-alert auth-alert--{{ message.tags|default:'info' }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="auth-alerts">
+            <div class="auth-alert auth-alert--error">{{ form.non_field_errors }}</div>
+          </div>
+        {% endif %}
+
+        <form class="auth-form" method="POST" action="">
+          {% csrf_token %}
+
+          <div class="auth-grid">
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.username.id_for_label }}">Tên đăng nhập</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-user"></i></span>
+                {{ form.username }}
+              </div>
+              {% if form.username.errors %}<div class="auth-error">{{ form.username.errors }}</div>{% endif %}
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.email.id_for_label }}">Email</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-envelope"></i></span>
+                {{ form.email }}
+              </div>
+              {% if form.email.errors %}<div class="auth-error">{{ form.email.errors }}</div>{% endif %}
+            </div>
+
+            {% if form.phone %}
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.phone.id_for_label }}">Số điện thoại</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-phone"></i></span>
+                {{ form.phone }}
+              </div>
+              {% if form.phone.errors %}<div class="auth-error">{{ form.phone.errors }}</div>{% endif %}
+            </div>
+            {% endif %}
+
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.first_name.id_for_label }}">Họ</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-id-card"></i></span>
+                {{ form.first_name }}
+              </div>
+              {% if form.first_name.errors %}<div class="auth-error">{{ form.first_name.errors }}</div>{% endif %}
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.last_name.id_for_label }}">Tên</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-id-card"></i></span>
+                {{ form.last_name }}
+              </div>
+              {% if form.last_name.errors %}<div class="auth-error">{{ form.last_name.errors }}</div>{% endif %}
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.password1.id_for_label }}">Mật khẩu</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-lock"></i></span>
+                {{ form.password1 }}
+                <button class="auth-toggle" type="button" data-auth-toggle="password" data-auth-target="#{{ form.password1.auto_id }}" aria-label="Hiện/ẩn mật khẩu">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+              {% if form.password1.errors %}<div class="auth-error">{{ form.password1.errors }}</div>{% endif %}
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="{{ form.password2.id_for_label }}">Nhập lại mật khẩu</label>
+              <div class="auth-inputwrap">
+                <span class="auth-icon"><i class="fa-solid fa-key"></i></span>
+                {{ form.password2 }}
+                <button class="auth-toggle" type="button" data-auth-toggle="password" data-auth-target="#{{ form.password2.auto_id }}" aria-label="Hiện/ẩn mật khẩu">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+              {% if form.password2.errors %}<div class="auth-error">{{ form.password2.errors }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="auth-actions">
+            <button type="submit" class="auth-btn auth-btn--primary">
+              Đăng ký
+              <i class="fa-solid fa-bolt ms-2"></i>
+            </button>
+          </div>
+
+          <div class="auth-foot">
+            <span>Đã có tài khoản?</span>
+            <a class="auth-link" href="{% url 'login' %}">Đăng nhập</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="auth-card__right">
+        <div class="auth-hero">
+          <div class="auth-hero__badge">
+            <i class="fa-solid fa-fire"></i>
+            <span>Ưu đãi • Năng lượng</span>
+          </div>
+          <div class="auth-hero__title">Tham gia ngay</div>
+          <div class="auth-hero__desc">Nhận mã giảm giá và theo dõi đơn hàng dễ dàng.</div>
+          <div class="auth-hero__art" aria-hidden="true">
+            <div class="auth-bubble auth-bubble--1"></div>
+            <div class="auth-bubble auth-bubble--2"></div>
+            <div class="auth-bubble auth-bubble--3"></div>
+            <img class="auth-hero__logo" src="{% static 'app/image/logoweb.png' %}" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{% static 'app/js/auth.js' %}?v=1"></script>
+{% endblock register %}

@@ -1,0 +1,94 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block profile %}
+<section class="account-page">
+    <div class="container py-4 py-lg-5">
+        <div class="account-header mb-3 mb-lg-4">
+            <div>
+                <div class="account-title">Tài khoản của tôi</div>
+                <div class="account-subtitle">Quản lý thông tin cá nhân để bảo mật tài khoản.</div>
+            </div>
+            <div class="account-header__actions">
+                <a href="{% url 'home' %}" class="account-btn account-btn--ghost">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Về trang chủ</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-3 g-lg-4">
+            <div class="col-lg-4">
+                <div class="account-card account-sidebar">
+                    <div class="account-sidebar__top">
+                        <div class="account-avatar">
+                            {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="account-avatar__img">
+                            {% else %}
+                                <div class="account-avatar__fallback">
+                                    {{ user.username|default:"U"|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="account-sidebar__meta">
+                            <div class="account-username">{{ user.username }}</div>
+                            <div class="account-role">
+                                <span class="account-badge">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span>Thành viên</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="account-sidebar__actions">
+                        <a href="{% url 'home' %}" class="account-btn account-btn--ghost w-100">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Tiếp tục mua sắm</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="account-card">
+                    <div class="account-card__header">
+                        <div class="account-card__title">Thông tin cá nhân</div>
+                        <a href="{% url 'update_profile' %}" class="account-link">
+                            <i class="fa-solid fa-pen"></i>
+                            <span>Chỉnh sửa</span>
+                        </a>
+                    </div>
+
+                    <div class="account-info">
+                        <div class="account-info__row">
+                            <div class="account-info__label">Họ và tên</div>
+                            <div class="account-info__value">
+                                {{ user.first_name }} {{ user.last_name }}
+                            </div>
+                        </div>
+                        <div class="account-info__row">
+                            <div class="account-info__label">Email</div>
+                            <div class="account-info__value">
+                                {% if user.email %}{{ user.email }}{% else %}<span class="account-muted">Chưa cập nhật</span>{% endif %}
+                            </div>
+                        </div>
+                        <div class="account-info__row">
+                            <div class="account-info__label">Số điện thoại</div>
+                            <div class="account-info__value">
+                                {% if user.profile.phone %}{{ user.profile.phone }}{% else %}<span class="account-muted">Chưa cập nhật</span>{% endif %}
+                            </div>
+                        </div>
+                        <div class="account-info__row">
+                            <div class="account-info__label">Địa chỉ</div>
+                            <div class="account-info__value">
+                                {% if user.profile.address %}{{ user.profile.address }}{% else %}<span class="account-muted">Chưa cập nhật</span>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock profile %}

@@ -1,0 +1,355 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="icon" type="image/x-icon" href="{% static 'app/image/favicon.ico' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        <link href = "{% static 'app/css/all.min.css' %}" rel = "stylesheet" />
+        <link href = "{% static 'app/css/owl.carousel.min.css' %}" rel = "stylesheet" />
+        <link href = "{% static 'app/css/style.css' %}" rel = "stylesheet" />
+        <link href = "{% static 'app/css/main.css' %}?v=1003" rel = "stylesheet" />
+        <link href = "{% static 'app/css/chatbot.css' %}?v=1" rel = "stylesheet" />
+        
+        <!--js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+        <script src="{% static 'app/js/owl.carousel.min.js' %}" > </script>
+        <script src="{% static 'app/js/all.min.js' %}" > </script>
+        <script src="{% static 'app/js/myscript.js' %}" > </script>
+        <script src="{% static 'app/js/cart.js' %}?v=4" > </script>
+        <script type = "text/javascript" >
+            var user = '{{request.user}}'
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function getCsrfFromDom() {
+                const el = document.querySelector('input[name="csrfmiddlewaretoken"]');
+                return el ? el.value : null;
+            }
+            function getCsrfToken() {
+                return getCookie('csrftoken') || getCsrfFromDom() || '';
+            }
+
+            // cart.js đang dùng biến global `csrftoken` => giữ tương thích, nhưng cập nhật sau khi DOM sẵn sàng.
+            var csrftoken = getCsrfToken();
+            document.addEventListener('DOMContentLoaded', function () {
+                csrftoken = getCsrfToken();
+            });
+        </script>
+
+        <title>Ăn là Ghiền</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body class="{% if is_home %}page-home{% endif %}">
+        <!-- Hidden CSRF form: đảm bảo trang nào cũng có token + cookie để fetch POST hoạt động -->
+        <form id="csrf-form" method="post" style="display:none">{% csrf_token %}</form>
+        <!--Header-->
+            <nav class="navbar navbar-expand-lg custom-navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                        <img src="{% static 'app/image/logoweb.png' %}" height="50" class="me-2" alt="Ăn là Ghiền">
+                        <span class="brand-text d-none d-md-inline">Ăn là Ghiền</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url "home" %}">Trang chủ</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sản phẩm
+                                </a>
+                                <ul class="dropdown-menu">
+                                    {% for i in categories %}
+                                    <li><a class="dropdown-item" href="{% url "category" %}?category={{i.slug}}">{{i.name}}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class = "nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#aboutMeModal"
+                                >About me</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href = "#">Liên hệ</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex nav-search" role="search" method="get" action="{% url 'search' %}">
+                            <div class="nav-search__wrap">
+                                <i class="fa-solid fa-magnifying-glass nav-search__icon" aria-hidden="true"></i>
+                                <input
+                                    class="form-control nav-search__input"
+                                    type="search"
+                                    placeholder="Bạn muốn tìm gì hôm nay?"
+                                    aria-label="Search"
+                                    name="q"
+                                    value="{{ request.GET.q|default:'' }}"
+                                    autocomplete="off"
+                                />
+                            </div>
+                            <button class="btn btn-search nav-search__btn" type="submit">
+                                Tìm
+                            </button>
+                        </form>
+                    </div>
+                    <div class="nav-actions">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a id="userMenu" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ user.profile.avatar.url }}" class="avatar">
+                                    {{ request.user }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end nav-user-dropdown" aria-labelledby="userMenu">
+                                    <li><a class="dropdown-item" href="{% url "profile" %}">Trang cá nhân</a></li>
+                                    <li><a class="dropdown-item" href="{% url "logout" %}">Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{% url "login" %}">Đăng nhập</a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link" href="{% url "register" %}">Đăng ký</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <a class="nav-cart" href="{% url 'cart' %}" aria-label="Giỏ hàng">
+                        <img id="cart-icon" src="{% static 'app/image/cart.png' %}" alt="Cart">
+                        <span id="cart-total">{{cartItems}}</span>
+                    </a>
+                    </div>
+                </div>
+            </nav>
+        <main>
+        <!--main body-->
+        {% block banner_slider %}{% endblock banner_slider%}
+        {% block main_content %}{% endblock main_content %}
+
+        <!--Giao diện Cart-->
+        {% block cart_content %}{% endblock cart_content %}
+
+        <!--Giao diện register-->
+        {% block register %}{% endblock register %}
+
+        <!--Giao diện login-->
+        {% block login %}{% endblock login %}
+
+        <!--Giao diện search-->
+        {% block search %}{% endblock search %}
+
+        <!--Giao diện profile-->
+        {% block profile %}{% endblock profile %}
+
+        <!--Giao diện checkout-->
+        {% block content_checkout %}{% endblock content_checkout%}
+        </main>
+        <!-- Thông báo thêm giỏ thành công (dùng chung mọi trang) -->
+        <div id="add-cart-success-overlay" class="add-cart-success-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-cart-success-title">
+            <div class="add-cart-success-dialog">
+                <div class="add-cart-success-iconwrap" aria-hidden="true">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <p id="add-cart-success-title" class="add-cart-success-text">Sản phẩm đã được thêm vào Giỏ hàng</p>
+            </div>
+        </div>
+        <footer class="site-footer">
+            <div class="container py-4">
+                <div class="row g-3">
+                    <div class="col-lg-3">
+                        <div class="footer-brand">
+                            <img src="{% static 'app/image/logoweb.png' %}" alt="Ăn là Ghiền" class="footer-brand__logo">
+                            <div>
+                                <div class="footer-brand__name">Ăn là Ghiền</div>
+                                <div class="footer-brand__desc">Đặt món nhanh, ưu đãi mỗi ngày.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="footer-title">Danh mục</div>
+                        <div class="footer-links">
+                            {% for i in categories|slice:":6" %}
+                                <a href="{% url 'category' %}?category={{ i.slug }}">{{ i.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="footer-title">Hỗ trợ</div>
+                        <div class="footer-links">
+                            <a href="{% url 'cart' %}">Giỏ hàng</a>
+                            <a href="{% url 'search' %}">Tìm kiếm</a>
+                            <a
+                                href="#"
+                                role="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#aboutMeModal"
+                            >About me</a>
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'profile' %}">Tài khoản</a>
+                            {% else %}
+                                <a href="{% url 'login' %}">Đăng nhập</a>
+                                <a href="{% url 'register' %}">Đăng ký</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <span>© {{ now|date:"Y" }} Ăn là Ghiền</span>
+                    <span class="footer-dot">•</span>
+                    <span>Powered by Django</span>
+                </div>
+            </div>
+        </footer>
+
+        <!-- About me modal -->
+        <div class="modal fade" id="aboutMeModal" tabindex="-1" aria-labelledby="aboutMeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="aboutMeModalLabel">About me</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="line-height: 1.7">
+                        🍟 <em>Thiên đường ăn vặt gọi tên bạn!</em> 🍭
+                        <br/><br/>
+                        Bạn đang buồn miệng? Bạn đang stress? Hay đơn giản là… muốn ăn cho vui? 😆
+                        <br/>
+                        Chào mừng bạn đến với <em>trang web bán đồ ăn vặt “đỉnh của chóp”</em> – nơi mà chỉ cần lướt 5 phút là bụng réo ầm ầm!
+                        <br/><br/>
+                        Tại đây có gì?
+                        <br/>👉 Bánh tráng trộn “gây nghiện”
+                        <br/>👉 Khô gà cay xé lưỡi nhưng vẫn muốn ăn tiếp
+                        <br/>👉 Snack giòn rụm ăn là hết buồn
+                        <br/>👉 Kẹo ngọt ngào hơn cả “crush” của bạn
+                        <br/><br/>
+                        💻 Chỉ cần vài cú click là đồ ăn tới tận cửa – nhanh như cách bạn hết tiền cuối tháng!
+                        <br/>📦 Đóng gói xinh xắn, sạch sẽ, nhìn là muốn “unbox” liền tay
+                        <br/>💸 Giá cả “hạt dẻ”, ưu đãi nhiều đến mức mua xong vẫn thấy lời
+                        <br/><br/>
+                        🔥 Đặc biệt: luôn cập nhật trend ăn vặt mới nhất – bạn chưa thử là bạn “tối cổ” đó nha!
+                        <br/><br/>
+                        Còn chờ gì nữa? Lên web ngay, chọn món liền tay, ăn vặt thả ga – vui hết nấc! 😋
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chatbot (global) -->
+        <div class="ai-chatbot" data-ai-chatbot-root>
+            <button
+                type="button"
+                class="ai-chatbot__btn"
+                data-ai-chatbot-btn
+                aria-label="Mở chatbot hỗ trợ"
+                aria-expanded="false"
+            >
+                <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+            </button>
+
+            <section
+                class="ai-chatbot__panel"
+                data-ai-chatbot-panel
+                aria-label="Trợ lý AI"
+                aria-hidden="true"
+            >
+                <header class="ai-chatbot__header">
+                    <div class="ai-chatbot__titlewrap">
+                        <div class="ai-chatbot__badge" aria-hidden="true">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div style="min-width:0">
+                            <p class="ai-chatbot__title">Trợ lý AI</p>
+                            <div class="ai-chatbot__subtitle">Hỏi đáp nhanh về sản phẩm/đặt hàng</div>
+                        </div>
+                    </div>
+                    <div class="ai-chatbot__head-actions">
+                        <button type="button" class="ai-chatbot__iconbtn" data-ai-chatbot-reset aria-label="Xóa hội thoại">
+                            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="ai-chatbot__iconbtn" data-ai-chatbot-close aria-label="Đóng chatbot">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </header>
+
+                <div class="ai-chatbot__messages" data-ai-chatbot-messages>
+                    <div class="ai-chatbot__empty" data-ai-chatbot-empty>
+                        Bạn có thể hỏi về sản phẩm, thanh toán, vận chuyển, đổi trả…
+                        <br/>Ví dụ: “Phí ship tính thế nào?” hoặc “Gợi ý món bán chạy?”
+                    </div>
+                </div>
+
+                <div class="ai-chatbot__composer">
+                    <div class="ai-chatbot__inputwrap">
+                        <input
+                            type="text"
+                            class="ai-chatbot__input"
+                            data-ai-chatbot-input
+                            placeholder="Nhập câu hỏi của bạn…"
+                            autocomplete="off"
+                        />
+                    </div>
+                    <button type="button" class="ai-chatbot__send" data-ai-chatbot-send aria-label="Gửi">
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                    <div class="ai-chatbot__status" data-ai-chatbot-status></div>
+                </div>
+            </section>
+        </div>
+
+        {% if is_home %}
+        <script>
+        (function () {
+            if (!document.body.classList.contains('page-home')) return;
+            var nav = document.querySelector('body.page-home .custom-navbar');
+            var main = document.querySelector('body.page-home main');
+            if (!nav || !main) return;
+            function syncMainPad() {
+                main.style.paddingTop = nav.offsetHeight + 'px';
+            }
+            syncMainPad();
+            window.addEventListener('resize', syncMainPad);
+            if (window.ResizeObserver) {
+                new ResizeObserver(syncMainPad).observe(nav);
+            }
+        })();
+        </script>
+        {% endif %}
+
+        <script src="{% static 'app/js/chatbot.js' %}?v=1"></script>
+    </body>
+</html>
