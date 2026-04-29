@@ -36,7 +36,7 @@ class OpenRouterChatProvider(ChatProvider):
     def __init__(self) -> None:
         # Yêu cầu: đọc từ env, không hardcode key trong source.
         self.api_key = os.environ.get("OPENAI_API_KEY")
-        self.model = os.environ.get("OPENAI_MODEL", "openai/gpt-4o-mini")
+        self.model = os.environ.get("OPENAI_MODEL", "openrouter/free")
         # Yêu cầu: base_url cố định theo OpenRouter
         self.base_url = "https://openrouter.ai/api/v1"
 
@@ -110,7 +110,7 @@ class OpenRouterChatProvider(ChatProvider):
 
         model = (self.model or "").strip()
         if not model:
-            logger.error("Missing OPENAI_MODEL. Set environment variable OPENAI_MODEL (e.g. openai/gpt-4o-mini).")
+            logger.error("Missing OPENAI_MODEL. Set environment variable OPENAI_MODEL (e.g. openrouter/free).")
             raise ChatProviderError("Missing OPENAI_MODEL")
 
         url = f"{self.base_url}/chat/completions"
